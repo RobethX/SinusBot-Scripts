@@ -44,10 +44,10 @@ registerPlugin({
 
 			var message = ev.msg;
 
-			if (message.substr(0,4) == config.commandTrigger) {
+			if (message.substring(0,4) == config.commandTrigger) {
 				sinusbot.log("got command from " + ev.client.name());
 				ev.client.chat("Attempting to queue requested song");
-				var request = encodeURI(ev.text.substr(5));
+				var request = encodeURI(message.substring(5));
 				var url = config.searchURL + request;
 				media.playURL(url);
 				return;
