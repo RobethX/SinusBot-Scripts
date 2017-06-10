@@ -1,6 +1,4 @@
 //Searches for a song on youtube by its name and loads it into the MusicBot
-import 
-
 registerPlugin({
 	name: "Youtube Song Search",
 	version: "1.0",
@@ -38,6 +36,10 @@ registerPlugin({
 	var event = require("event");
 	var media = require("media");
 	
+	//var commandRegex = new RegExp(/^!song(?: \w*?)??$/i); //allow custom commands
+	var commandRegex = new RegExp(/([^\s]+)*/i);
+	var messageRegex = new RegExp(/\s(.*)$/i);
+	
 	config.commandTrigger = config.commandTrigger || "!song";
 	config.privateChatEnabled = config.privateChatEnabled || true;
 	config.channelChatEnabled = config.channelChatEnabled || true;
@@ -55,19 +57,23 @@ registerPlugin({
 		if (ev.mode == 1 && config.privateChatEnabled ||
             ev.mode == 2 && config.channelChatEnabled ||
             ev.mode == 3 && config.serverChatEnabled) {
-
-			var commandRegex = new RegExp(/^!song(?: \w*?)??$/i) //allow custom commands
-			var messageRegex = new RegExp(\s(.*))
+				
+			engine.log("chat event: " + ev.text + ", " + ev.client.name() + ", " + ev.mode);
 			
-			var commandMatch = String(ev.msg).match(commandRegex);
-			var messageMatch = String(ev.msg).match(messageRegex);
+			var commandMatch = String(ev.text).match(commandRegex);
+			var messageMatch = String(ev.text).match(messageRegex);
+			var songQuery = messageMatch[1];
+			
+			engine.log(commandMatch);
+			engine.log(messageMatch);
 
-			if (commandMatch == config.commandTrigger) {
+			if (commandMatch =! null) {
 				engine.log("got command from " + ev.client.name());
-				ev.client.chat("Attempting to queue requested song");
-				var request = encodeURI(messageMatch);
+				ev.client.chat("Attempting to queue requested song " + songQuery);
+				var request = encodeURI(songQuery);
 				var url = config.searchURL + request;
-				media.playURL(url);
+				engine.log(url);
+				media.yt(url);
 				return;
 			}
 		}
