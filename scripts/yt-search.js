@@ -67,7 +67,7 @@ registerPlugin({
 			engine.log(commandMatch);
 			engine.log(messageMatch);
 
-			if (commandMatch =! null) {
+			if (commandMatch[1] == config.commandTrigger) {
 				engine.log("got command from " + ev.client.name());
 				ev.client.chat("Attempting to queue requested song " + songQuery);
 				var request = encodeURI(songQuery);
