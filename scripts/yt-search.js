@@ -6,18 +6,52 @@ registerPlugin({
 	author: "Rob Chiocchio",
 	vars: [
 		{
-			name: "command_trigger",
+			name: "commandTrigger",
 			title: "Command",
 			type: "string",
-			placeholder: "play"
+			placeholder: "!song"
+		},{
+			name: "searchURL",
+			title: "Search URL",
+			type: "string",
+			placeholder: "https://www.youtube.com/results?search_query="
 		}
 	]
-},
-
-function(sinusbot, config) {
+}, function(sinusbot, config) {
 
 	var backend = require("backend");
 	var engine = require("engine");
 	var event = require("event");
+	var media = require("media");
+	
+	config.commandTrigger = config.commandTrigger || "!song";
+	config.privateChatEnabled = config.privateChatEnabled || true;
+	config.channelChatEnabled = config.channelChatEnabled || true;
+	config.serverChatEnabled = config.serverChatEnabled || false;
+	engine.saveConfig(config);
 
-	if
+	event.on("chat", function (ev) {
+		var client = ev.client;
+		var channel = ev.channel;
+		
+		if (client.isSelf()) return;
+		
+		sinusbot.log("chat event: " + ev.text + ", " + ev.client.name() + ", " + ev.mode);
+		
+		if (ev.mode == 1 && config.privateChatEnabled ||
+            ev.mode == 2 && config.channelChatEnabled ||
+            ev.mode == 3 && config.serverChatEnabled) {
+
+			var message = ev.msg;
+
+			if (message.substr(0,4) == config.commandTrigger) {
+				sinusbot.log("got command from " + ev.client.name());
+				ev.client.chat("Attempting to queue requested song");
+				var request = encodeURI(ev.text.substr(5));
+				var url = config.searchURL + request;
+				media.playURL(url);
+				return;
+			}
+		}
+	});
+});
