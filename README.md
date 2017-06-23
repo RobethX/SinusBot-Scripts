@@ -1,8 +1,8 @@
-# YouTube Search
+## Scripts
+### YouTube Search
 Automatically queues the most relevant result of a search query on YouTube into SinusBot
-# Scrobbler [WIP]
+### Scrobbler [WIP]
 Automatically scrobbles playing songs to Last.FM
-# Spotify [WIP]
+### Spotify [WIP]
 Integrates Spotify into SinusBot
-
-# Installation
+## Installation
