@@ -6,3 +6,4 @@ Automatically scrobbles playing songs to Last.FM
 ### Spotify [WIP]
 Integrates Spotify into SinusBot
 ## Installation
+Do stuff
