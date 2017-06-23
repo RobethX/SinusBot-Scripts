@@ -7,3 +7,6 @@ Automatically scrobbles playing songs to Last.FM
 Integrates Spotify into SinusBot
 ## Installation
 Do stuff
+
+
+_None of these scripts have been tested in Discord_
